@@ -1,0 +1,27 @@
+const fs = require('fs');
+const path = require('path');
+const activityFilePath = path.join(__dirname, 'activity.json');
+
+// Veriyi yükle
+function loadActivityData() {
+  if (!fs.existsSync(activityFilePath)) {
+    return {}; // Dosya yoksa boş bir nesne döndür
+  }
+
+  try {
+    // JSON'u güvenli bir şekilde yükle
+    return JSON.parse(fs.readFileSync(activityFilePath));
+  } catch (error) {
+    console.error("activity.json dosyasını yüklerken bir hata oluştu:", error);
+    return {}; // Hata durumunda boş bir nesne döndür
+  }
+}
+
+// Veriyi kaydet
+function saveActivityData(data) {
+  try {
+    fs.writeFileSync(activityFilePath, JSON.stringify(data, null, 2));
+  } catch (error) {
+    console.error("activity.json dosyasına yazarken bir hata oluştu:", error);
+  }
+}
